@@ -1,0 +1,183 @@
+<!DOCTYPE html><html><head><title></title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"><style type='text/css'>
+body {
+    font-family: 'Candara','Gentium Basic', 'Helvetica', 'Arial';
+    background:#000;
+    background-size:100%;
+    background-repeat:no-repeat;
+    color:#fff;
+    margin:0;
+    padding:0;
+    font-weight:bold;
+}
+
+h1, h2, h3, p {
+    margin:0;
+}
+
+em, b {
+    font-style:normal;
+    color:#8fc349;
+    font-size:125%;
+}
+
+a {
+    color:#34d0e7;
+    text-decoration:none;
+}
+a:hover {
+    text-shadow:
+        0 0 32px #34d0e7;
+}
+
+img {
+    width:100%;
+}
+
+div {
+    cursor:pointer;
+    cursor:hand;
+    position:absolute;
+    top:0px;
+    left:0px;
+    padding:75px;
+    line-height:120%;
+    text-align:center;
+}
+
+div.left, ul {
+    text-align:left;
+}
+
+div.imageText {
+    text-shadow:0px 0px 20px #000;
+}
+</style><script type='text/javascript'>
+window.onload = function() {
+    var s = document.getElementsByTagName('div'), cur = 0, ti;
+    if (!s) return;
+
+    linkExternal();
+
+    function linkExternal() {
+        var a = document.getElementsByTagName('a');
+        for (var i = 0; i < a.length; i++) {
+            a[i].target = '_blank';
+        }
+    }
+
+    function go(n) {
+        cur = n;
+        var i = 1e3, e = s[n], t;
+        for (var k = 0; k < s.length; k++) s[k].style.display = 'none';
+        e.style.display = 'inline';
+        e.style.fontSize = i + 'px';
+        if (e.firstChild.nodeName === 'IMG') {
+            document.body.style.backgroundImage = 'url(' + e.firstChild.src + ')';
+            e.firstChild.style.display = 'none';
+            if ('classList' in e) e.classList.add('imageText');
+        } else {
+            document.body.style.backgroundImage = '';
+            document.body.style.backgroundColor = e.style.backgroundColor;
+        }
+        if (ti !== undefined) window.clearInterval(ti);
+        t = parseInt(e.getAttribute('time-to-next') || 0, 10);
+        if (t > 0) ti = window.setTimeout(fwd, (t * 1000));
+        while (
+            e.offsetWidth > window.innerWidth ||
+            e.offsetHeight > window.innerHeight) {
+            e.style.fontSize = (i -= 2) + 'px';
+            if (i < 0) break;
+        }
+        e.style.marginTop = ((window.innerHeight - e.offsetHeight) / 2) + 'px';
+        if (window.location.hash !== n) window.location.hash = n;
+        document.title = e.textContent || e.innerText;
+    }
+    document.onclick = function(e) {
+        if (e.shiftKey || e.altKey || e.shiftKey || e.button>0 || e.target.nodeName==='A') return;
+        go(++cur % (s.length));
+
+    };
+    function fwd() { go(Math.min(s.length - 1, ++cur)); }
+    function rev() { go(Math.max(0, --cur)); }
+    document.onkeydown = function(e) {
+        if (e.which === 39) fwd();
+        if (e.which === 37) rev();
+        if (e.which === 36) go(0); // home
+        if (e.which === 35) go(s.length-1); // end
+    };
+    document.ontouchstart = function(e) {
+        var x0 = e.changedTouches[0].pageX;
+        document.ontouchend = function(e) {
+            var x1 = e.changedTouches[0].pageX;
+            if (x1 - x0 < 0) fwd();
+            if (x1 - x0 > 0) rev();
+        };
+    };
+    function parse_hash() {
+        return Math.max(Math.min(
+            s.length - 1,
+            parseInt(window.location.hash.substring(1), 10)), 0);
+    }
+    if (window.location.hash) cur = parse_hash() || cur;
+    window.onhashchange = function() {
+        var c = parse_hash();
+        if (c !== cur) go(c);
+    };
+
+    go(cur);
+};
+</script></head><body>
+
+<!-- CUGIR, the Cornell University Geospatial Information Repository, has hosted geospatial data for New York state since 1998. After two decades in service, the CUGIR infrastructure has been retired and completely rebuilt using several open source components: PostGIS, GeoServer, Solr, and GeoBlacklight. This presentation will discuss the goals of the rebuild, and demonstrate how the new CUGIR provides a powerful discovery interface combining keyword- and map-based search. We'll see how search results can be filtered by facets such as topic, year, author, collection, or data type; how individual datasets can be previewed on the website, which allows even non-GIS users to explore the data on a map; and how to use WMS and WFS services to connect to CUGIR data without even downloading a zipfile.
+-->
+
+
+<div><b>GIS support services at Mann Library</b></div>
+<div><em>Keith Jenkins</em><br>GIS&nbsp;Librarian</div>
+<div> <img src='image/what-is-a-gis-librarian.jpg'></div>
+
+<div><b>GIS Help Desk</b></div>
+<div>Weekdays 2-4 pm</div>
+<div>Walk-in or by appointment<br><img src='image/appointment.png'></div>
+<div>How may we help you?</div>
+
+<div>troubleshoot GIS software <img src='image/troubleshoot.png'></div>
+<div>troubleshoot projections <img src='image/projections.png'></div>
+<div>convert data <img src='image/convert.png'></div>
+<div>restructure data <img src='image/restructure.png'></div>
+<div>finding the right tool<img src='image/tools.png'></div>
+<div>SQL <img src='image/sql.png'></div>
+<div>SQL <img src='image/chunks.png'></div>
+<div>cartography <img src='image/cartography.png'></div>
+<div>cartography <img src='image/colors.png'></div>
+<div>cartography <img src='image/calloutlines.png'></div>
+
+<div>Finding data</div>
+<div><a href='https://cugir.library.cornell.edu/'>CUGIR</a></div>
+<div><a href='https://geoblacklight.org/'>GeoBlacklight</a></div>
+<div><a href='httsp://geolode.org/'>Geolode</a></div>
+
+
+<div><a href='http://spaces.library.cornell.edu/calendar/CULworkshops/?cid=4102&t=d&d=0000-00-00&cal=4102&ct=28036&cm=2381'>Workshops</a></div>
+
+<div>special workshops for courses<img src='image/pam5280.png'></div>
+
+<div><a href='https://confluence.cornell.edu/display/GIS/Academic+GIS+courses+at+Cornell'>Cornell academic courses</a></div>
+
+<div><b>GIS software on public computers</b><br>QGIS, ArcMap, ArcGIS Pro</div>
+<div>also Google Earth Pro, R, RStudio, Tableau</div>
+
+<div>Cornell Campus Software Map<br><a href='https://kgjenkins.github.io/software-map/'>(in progress)</a></div>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
